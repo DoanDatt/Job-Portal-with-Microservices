@@ -1,6 +1,6 @@
-import app from "./app.js";
-import dotenv from "dotenv";
-import { sql } from "./utils/db.js";
+import app from './app.js';
+import dotenv from 'dotenv';
+import { sql } from './utils/db.js';
 
 dotenv.config();
 
@@ -47,14 +47,14 @@ async function initDb() {
         )
     `;
 
-    console.log("Database initialized successfully");
+    console.log('Database initialized successfully');
   } catch (error) {
-    console.log("Error initializing database:", error);
+    console.log('Error initializing database:', error);
     process.exit(1);
   }
 }
 initDb().then(() => {
-  app.listen(3000, () => {
+  app.listen(process.env.PORT || 5000, () => {
     console.log(
       `Auth service is running on http://localhost:${process.env.PORT || 5000}`,
     );
