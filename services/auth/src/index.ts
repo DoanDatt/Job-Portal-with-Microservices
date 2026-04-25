@@ -1,8 +1,8 @@
-import app from './app.js';
-import dotenv from 'dotenv';
-import { sql } from './utils/db.js';
+import app from './app.js'
+import dotenv from 'dotenv'
+import { sql } from './utils/db.js'
 
-dotenv.config();
+dotenv.config()
 
 async function initDb() {
   try {
@@ -13,7 +13,7 @@ async function initDb() {
             CREATE TYPE user_role AS ENUM ('jobseeker', 'recruiter');
         END IF;
     END$$;
-    `;
+    `
 
     await sql`
     CREATE TABLE IF NOT EXISTS users (
@@ -30,14 +30,14 @@ async function initDb() {
         profile_pic_public_id VARCHAR(255),
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         subscribed_at TIMESTAMP
-    )`;
+    )`
 
     await sql`
         CREATE TABLE IF NOT EXISTS skills (
             skill_id SERIAL PRIMARY KEY,
             name VARCHAR(255) UNIQUE NOT NULL
         )
-    `;
+    `
 
     await sql`
         CREATE TABLE IF NOT EXISTS user_skills (
@@ -45,18 +45,16 @@ async function initDb() {
             skill_id INTEGER NOT NULL REFERENCES skills(skill_id) ON DELETE CASCADE,
             PRIMARY KEY (user_id, skill_id)
         )
-    `;
+    `
 
-    console.log('Database initialized successfully');
+    console.log('Database initialized successfully')
   } catch (error) {
-    console.log('Error initializing database:', error);
-    process.exit(1);
+    console.log('Error initializing database:', error)
+    process.exit(1)
   }
 }
 initDb().then(() => {
   app.listen(process.env.PORT || 5000, () => {
-    console.log(
-      `Auth service is running on http://localhost:${process.env.PORT || 5000}`,
-    );
-  });
-});
+    console.log(`Auth service is running on http://localhost:${process.env.PORT || 5000}`)
+  })
+})
